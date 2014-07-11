@@ -1,7 +1,6 @@
 package com.nagarro.training.assignment2.main;
 
-import com.nagarro.training.assignment2.flightDTO.FlightDTO;
-import com.nagarro.training.assignment2.thread.ThreadLauncher;
+import com.nagarro.training.assignment2.thread.ProcessCsvFilesThreadLauncher;
 import com.nagarro.training.assignment2.userInterface.UserInteractor;
 
 public class ProgramLauncher {
@@ -10,17 +9,17 @@ public class ProgramLauncher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		FlightDTO dto = new FlightDTO();
 		
-		ThreadLauncher launcher = new ThreadLauncher();
-		launcher.initiateThreadClass(dto);
+//		Initialises the class that perform all csv files related operations
+		
+		ProcessCsvFilesThreadLauncher launcher = new ProcessCsvFilesThreadLauncher();
+		launcher.initiateThreadClass();
+		
+//		This will interact with user. Will take Input , validate it further and Finally Search for the fllights
 		
 		UserInteractor interactor = new UserInteractor();
-		interactor.userInput(dto);
-		
-		// will generate thread and pass dto to it
-		//thread will search for csv and 
+		interactor.userInput();
+
 	}
 
 }

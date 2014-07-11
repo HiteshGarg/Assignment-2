@@ -4,10 +4,10 @@ import java.util.Date;
 
 /**
  * @author hiteshgarg
- *
+ * 
  */
 public class Flight {
-	
+
 	private String flight_no;
 	private String dep_loc;
 	private String arr_loc;
@@ -24,107 +24,161 @@ public class Flight {
 	public String getFlight_no() {
 		return flight_no;
 	}
+
 	/**
-	 * @param flight_no the flight_no to set
+	 * @param flight_no
+	 *            the flight_no to set
 	 */
 	public void setFlight_no(String flight_no) {
 		this.flight_no = flight_no;
 	}
+
 	/**
 	 * @return the dep_loc
 	 */
 	public String getDep_loc() {
 		return dep_loc;
 	}
+
 	/**
-	 * @param dep_loc the dep_loc to set
+	 * @param dep_loc
+	 *            the dep_loc to set
 	 */
 	public void setDep_loc(String dep_loc) {
 		this.dep_loc = dep_loc;
 	}
+
 	/**
 	 * @return the arr_loc
 	 */
 	public String getArr_loc() {
 		return arr_loc;
 	}
+
 	/**
-	 * @param arr_loc the arr_loc to set
+	 * @param arr_loc
+	 *            the arr_loc to set
 	 */
 	public void setArr_loc(String arr_loc) {
 		this.arr_loc = arr_loc;
 	}
+
 	/**
 	 * @return the valid_till
 	 */
 	public Date getValid_till() {
 		return valid_till;
 	}
+
 	/**
-	 * @param valid_till the valid_till to set
+	 * @param valid_till
+	 *            the valid_till to set
 	 */
 	public void setValid_till(Date valid_till) {
 		this.valid_till = valid_till;
 	}
+
 	/**
 	 * @return the flight_time
 	 */
 	public String getFlight_time() {
 		return flight_time;
 	}
+
 	/**
-	 * @param flight_time the flight_time to set
+	 * @param flight_time
+	 *            the flight_time to set
 	 */
 	public void setFlight_time(String flight_time) {
 		this.flight_time = flight_time;
 	}
+
 	/**
 	 * @return the flight_duration
 	 */
 	public String getFlight_duration() {
 		return flight_duration;
 	}
+
 	/**
-	 * @param flight_duration the flight_duration to set
+	 * @param flight_duration
+	 *            the flight_duration to set
 	 */
 	public void setFlight_duration(String flight_duration) {
 		this.flight_duration = flight_duration;
 	}
+
 	/**
 	 * @return the fare
 	 */
 	public Integer getFare() {
 		return fare;
 	}
+
 	/**
-	 * @param fare the fare to set
+	 * @param fare
+	 *            the fare to set
 	 */
 	public void setFare(Integer fare) {
 		this.fare = fare;
 	}
+
 	/**
 	 * @return the seat_avail
 	 */
 	public String getSeat_avail() {
 		return seat_avail;
 	}
+
 	/**
-	 * @param seat_avail the seat_avail to set
+	 * @param seat_avail
+	 *            the seat_avail to set
 	 */
 	public void setSeat_avail(String seat_avail) {
 		this.seat_avail = seat_avail;
 	}
+
 	/**
 	 * @return the flight_class
 	 */
 	public String getFlight_class() {
 		return flight_class;
 	}
+
 	/**
-	 * @param flight_class the flight_class to set
+	 * @param flight_class
+	 *            the flight_class to set
 	 */
 	public void setFlight_class(String flight_class) {
 		this.flight_class = flight_class;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Flight temp = (Flight) obj;
+		if (!flight_no.equals(temp.flight_no) && !arr_loc.equals(temp.arr_loc)
+				&& !dep_loc.equals(temp.dep_loc) && !fare.equals(temp.fare)
+				&& !flight_class.equals(temp.flight_class)
+				&& !flight_duration.equals(temp.flight_duration)
+				&& !flight_time.equals(temp.flight_time)
+				&& !seat_avail.equals(temp.seat_avail)
+				&& !valid_till.equals(temp.valid_till))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return (int) (this.arr_loc.hashCode() * this.dep_loc.hashCode()
+				* this.valid_till.hashCode() * this.seat_avail.hashCode()
+				* this.flight_time.hashCode() * this.flight_no.hashCode()
+				* this.flight_duration.hashCode()
+				* this.flight_class.hashCode() * this.fare.hashCode());
+	}
 }

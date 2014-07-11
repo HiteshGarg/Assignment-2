@@ -5,8 +5,6 @@ package com.nagarro.training.assignment2.flightDTO;
 
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.nagarro.training.assignment2.flight.Flight;
@@ -23,46 +21,19 @@ public class FlightDTO {
 	private Date flight_date;
 	private String flight_class;
 	private String output_preferences;
-	private Map<String, Map<String, Set<Flight>>> flightDataCollection;
-	private Set<Flight> searchedFilghts;
-	private List<String> updatedFiles;
+	private Set<Flight> searchedFlights;
 	
 	/**
 	 * @return the searchedFilghts
 	 */
-	public Set<Flight> getSearchedFilghts() {
-		return searchedFilghts;
+	public Set<Flight> getSearchedFlights() {
+		return searchedFlights;
 	}
 	/**
 	 * @param searchedFilghts the searchedFilghts to set
 	 */
-	public void setSearchedFilghts(Set<Flight> searchedFilghts) {
-		this.searchedFilghts = searchedFilghts;
-	}
-	/**
-	 * @return the flightDataCollection
-	 */
-	public Map<String, Map<String, Set<Flight>>> getFlightDataCollection() {
-		return flightDataCollection;
-	}
-	/**
-	 * @param flightDataCollection the flightDataCollection to set
-	 */
-	public void setFlightDataCollection(
-			Map<String, Map<String, Set<Flight>>> flightDataCollection) {
-		this.flightDataCollection = flightDataCollection;
-	}
-	/**
-	 * @return the updatedFiles
-	 */
-	public List<String> getUpdatedFiles() {
-		return updatedFiles;
-	}
-	/**
-	 * @param updatedFiles the updatedFiles to set
-	 */
-	public void setUpdatedFiles(List<String> updatedFiles) {
-		this.updatedFiles = updatedFiles;
+	public void setSearchedFlights(Set<Flight> searchedFlights) {
+		this.searchedFlights = searchedFlights;
 	}
 	/**
 	 * @return the dep_loc

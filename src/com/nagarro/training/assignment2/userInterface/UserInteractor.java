@@ -17,8 +17,8 @@ import com.nagarro.training.assignment2.validators.UserInputValidators;
  */
 public class UserInteractor {
 
-	public void userInput(FlightDTO dto) {
-
+	public void userInput() {
+		FlightDTO dto = new FlightDTO();
 		boolean validate = true;
 		String input;
 		String choice= "";
@@ -78,11 +78,11 @@ public class UserInteractor {
 				choice = reader.readLine();
 			} while (choice.equalsIgnoreCase("y"));
 
-			System.out.println("Good you have entered all valid inputs");
+		/*	System.out.println("Good you have entered all valid inputs");
 			System.out.println(dto.getArr_loc() + " " + dto.getDep_loc() + " "
 					+ dto.getFlight_class() + " " + dto.getFlight_date() + " "
 					+ dto.getOutput_preferences());
-
+*/
 			System.exit(0);
 		} catch (IOException e) {
 
