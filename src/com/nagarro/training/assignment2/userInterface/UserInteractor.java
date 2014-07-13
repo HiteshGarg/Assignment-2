@@ -9,7 +9,6 @@ import java.util.Date;
 
 import com.nagarro.training.assignment2.Constants.Constants;
 import com.nagarro.training.assignment2.flightDTO.FlightDTO;
-import com.nagarro.training.assignment2.validators.StringDateConverter;
 import com.nagarro.training.assignment2.validators.UserInputValidators;
 
 /**
@@ -24,9 +23,9 @@ public class UserInteractor {
 		String input;
 		String choice= "";
 		try {
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(System.in));
 			do {
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(System.in));
 				System.out.println(Constants.WELCOME_MESSAGE);
 
 				do {
@@ -48,11 +47,14 @@ public class UserInteractor {
 					validate = UserInputValidators.dateValidator(input = reader
 							.readLine());
 				} while (!validate);
-				
-				Date date = StringDateConverter.StringToDateConvertor(input);
-				if(date == null){
-					System.out.println("Error in Date processing... Please Try again");
-					continue;
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				Date date = null;
+				try {
+					formatter.setLenient(false);
+					date = formatter.parse(input);
+				} catch (ParseException e) {
+					System.out.println("Unexpected Error in Date Formatting");
+					System.exit(1);
 				}
 				dto.setFlight_date(date);
 
@@ -76,7 +78,11 @@ public class UserInteractor {
 				choice = reader.readLine();
 			} while (choice.equalsIgnoreCase("y"));
 
-			reader.close();
+		/*	System.out.println("Good you have entered all valid inputs");
+			System.out.println(dto.getArr_loc() + " " + dto.getDep_loc() + " "
+					+ dto.getFlight_class() + " " + dto.getFlight_date() + " "
+					+ dto.getOutput_preferences());
+*/
 			System.exit(0);
 		} catch (IOException e) {
 

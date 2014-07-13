@@ -1,13 +1,12 @@
 package com.nagarro.training.assignment2.flight;
 
-import java.util.Comparator;
 import java.util.Date;
 
 /**
  * @author hiteshgarg
  * 
  */
-public class Flight{
+public class Flight {
 
 	private String flight_no;
 	private String dep_loc;
@@ -182,24 +181,4 @@ public class Flight{
 				* this.flight_duration.hashCode()
 				* this.flight_class.hashCode() * this.fare.hashCode());
 	}
-
-	
-	 public static Comparator<Flight> FareSorter=  new Comparator<Flight>() {
-                @Override
-                public int compare(Flight obj1, Flight obj2) {
-                      return obj1.getFare() - obj2.getFare();
-                }
-         };
-     
-         public static Comparator<Flight> FareDurationSorter=  new Comparator<Flight>() {
-             @Override
-             public int compare(Flight obj1, Flight obj2) {
-            	 if (obj1.getFare().equals(obj2.getFare())) {
-                     return obj1.getFlight_duration().compareTo(obj2.getFlight_duration());
-              } else {
-                     return obj1.getFare() - obj2.getFare();
-              }
-             }
-      };    
-
 }

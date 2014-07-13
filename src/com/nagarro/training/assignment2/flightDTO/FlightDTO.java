@@ -5,14 +5,14 @@ package com.nagarro.training.assignment2.flightDTO;
 
 
 import java.util.Date;
-import java.util.List;
-import java.util.List;
+import java.util.Set;
 
 import com.nagarro.training.assignment2.flight.Flight;
 
 
 /**
  * @author hiteshgarg
+ *
  */
 public class FlightDTO {
 
@@ -21,18 +21,18 @@ public class FlightDTO {
 	private Date flight_date;
 	private String flight_class;
 	private String output_preferences;
-	private List<Flight> searchedFlights;
+	private Set<Flight> searchedFlights;
 	
 	/**
 	 * @return the searchedFilghts
 	 */
-	public List<Flight> getSearchedFlights() {
+	public Set<Flight> getSearchedFlights() {
 		return searchedFlights;
 	}
 	/**
-	 * @param searchedFilghts the searchedFilghts to List
+	 * @param searchedFilghts the searchedFilghts to set
 	 */
-	public void setSearchedFlights(List<Flight> searchedFlights) {
+	public void setSearchedFlights(Set<Flight> searchedFlights) {
 		this.searchedFlights = searchedFlights;
 	}
 	/**

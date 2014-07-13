@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,15 +19,12 @@ import com.nagarro.training.assignment2.Constants.Constants;
 import com.nagarro.training.assignment2.dataStructure.SingletonClass;
 import com.nagarro.training.assignment2.flight.Flight;
 import com.nagarro.training.assignment2.flightDTO.CsvFilesDTO;
-import com.nagarro.training.assignment2.validators.StringDateConverter;
 
 /**
  * @author hiteshgarg
  * 
  */
 public class AddDataFromNewOrUpdatedCSV {
-
-	private BufferedReader reader;
 
 	public void addUpdatedFilesData(CsvFilesDTO csvDto) {
 
@@ -69,10 +68,20 @@ public class AddDataFromNewOrUpdatedCSV {
 			readCsvAddData(csvDto.getUpdatedFiles().get(i));
 
 		}
+
+		/*
+		 * for(Map.Entry<String, Map<String, Set<Flight>>> map:
+		 * singletion.getFlightDataCollection().entrySet()){
+		 * for(Map.Entry<String, Set<Flight>> innerMap :
+		 * map.getValue().entrySet()){ Set<Flight> innerSet =
+		 * innerMap.getValue(); Iterator<Flight> iter = innerSet.iterator();
+		 * while (iter.hasNext()) {
+		 * System.out.println(iter.next().getFlight_no()); } } }
+		 */
 	}
 
 	/*
-	 * This Method receives filename . Read it Line by Line. Create an object of
+	 * Method receives filename . Read it Line by Line. Create an object of
 	 * Flight class and stores it in the map with the relevant filename as key
 	 * For the sub map it creates a key by concatenating Departure Location and
 	 * Arrival Location and checks if it exists If the Key exists already the
@@ -86,7 +95,7 @@ public class AddDataFromNewOrUpdatedCSV {
 		csvFile = Constants.CSV_FILES_URL + "/" + csvFile;
 
 		try {
-			reader = new BufferedReader(new FileReader(csvFile));
+			BufferedReader reader = new BufferedReader(new FileReader(csvFile));
 			String inputLine = "";
 			reader.readLine();
 
@@ -96,12 +105,7 @@ public class AddDataFromNewOrUpdatedCSV {
 				flight.setFlight_no(data[0]);
 				flight.setDep_loc(data[1]);
 				flight.setArr_loc(data[2]);
-
-				Date date = StringDateConverter.StringToDateConvertor(data[3]);
-				if (date == null) {
-					continue;
-				}
-				flight.setValid_till(date);
+				flight.setValid_till(StringToDateConvertor(data[3]));
 				flight.setFlight_time(data[4]);
 				flight.setFlight_duration(data[5]);
 				flight.setFare(Integer.parseInt(data[6]));
@@ -127,6 +131,26 @@ public class AddDataFromNewOrUpdatedCSV {
 			e.printStackTrace();
 			System.out.println("ERROR 2");
 		}
+	}
+	
+	/* Validates and Converts a String into a Date object
+	 * 
+	 * */
+	public Date StringToDateConvertor(String input) {
+
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		Date date = new Date();
+		try {
+			formatter.setLenient(false);
+			date = formatter.parse(input);
+			// System.out.println(date);
+		} catch (ParseException e) {
+			System.out.println(Constants.INCORRECT_DATE_ERROR);
+			System.out.println("Check for error in files... System is exiting");
+			System.exit(1);
+			// return null;
+		}
+		return date;
 	}
 
 }
