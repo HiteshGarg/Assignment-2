@@ -3,8 +3,10 @@
  */
 package com.nagarro.training.assignment2.userInterface;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,20 +28,24 @@ public class FlightSearch {
 										// in the Set
 
 		/*
-		 * Settin 
+		 * Settin
 		 */
 		for (Map.Entry<String, Map<String, Set<Flight>>> localMap : singleton
 				.getFlightDataCollection().entrySet()) {
+
 			for (Map.Entry<String, Set<Flight>> innerMap : localMap.getValue()
 					.entrySet()) {
-				// System.out.println(DepArrKey);
 
 				if (innerMap.getKey().equalsIgnoreCase(DepArrKey)) {
 					Set<Flight> flightSet = innerMap.getValue();
-					Set<Flight> userSearch;
+					List<Flight> userSearch;
 
 					if (dto.getSearchedFlights() == null) {
-						userSearch = new HashSet<>();
+						/*
+						 * List(ArrayList) is taken so that we could sort the
+						 * Collection Based in user preference
+						 */
+						userSearch = new ArrayList<Flight>();
 					} else {
 						userSearch = dto.getSearchedFlights();
 					}
@@ -47,12 +53,8 @@ public class FlightSearch {
 					Iterator<Flight> iterator = flightSet.iterator();
 					while (iterator.hasNext()) {
 						Flight flight = iterator.next();
-						if ((dto.getFlight_date()
-								.before(flight.getValid_till()))
-								&& (flight.getFlight_class()
-										.contains((CharSequence) dto
-												.getFlight_class()
-												.toUpperCase()))) {
+						if ((dto.getFlight_date().before(flight.getValid_till()))
+								&& (flight.getFlight_class().contains((CharSequence) dto.getFlight_class().toUpperCase()))) {
 							userSearch.add(flight);
 						}
 					}
@@ -60,13 +62,8 @@ public class FlightSearch {
 				}
 			}
 		}
-		for (Flight flight : dto.getSearchedFlights()) {
-			System.out.println(flight.getFlight_no() + " "
-					+ flight.getFlight_class() + " " + flight.getFare());
-		}
-
-		// for(int i = 0 ; i< dto.getSearchedFilghts().size();i++){
-		// System.out.println(i +" "+ dto.getSearchedFilghts());
-		// }
+		
+		Output.outputDisplay(dto);
+		
 	}
 }
