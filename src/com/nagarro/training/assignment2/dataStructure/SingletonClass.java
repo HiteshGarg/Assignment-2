@@ -10,15 +10,20 @@ import com.nagarro.training.assignment2.flight.Flight;
 
 /**
  * @author hiteshgarg
- *
+ * 
  */
 public class SingletonClass {
-	
-	private static SingletonClass singletonInstance;	//Instance of Singleton Class
-	//Map to store Filenames and a Submap that stores Departure Arrival key and Set of relative Flights
-	private Map<String, Map<String, Set<Flight>>> flightDataCollection;		
+	/*
+	 * Instance of Singleton Class
+	 */
+	private static SingletonClass singletonInstance;
+	/*
+	 * Map to store Filenames as the Key and a Sub map as a value. Further that
+	 * inner map stores Departure Arrival String as key and Set of relative
+	 * Flights form that particular CSV file as its value
+	 */
+	private Map<String, Map<String, Set<Flight>>> flightDataCollection;
 
-	
 	/**
 	 * @return the flightDataCollection
 	 */
@@ -27,19 +32,19 @@ public class SingletonClass {
 	}
 
 	/**
-	 * @param flightDataCollection the flightDataCollection to set
+	 * @param flightDataCollection
+	 *            the flightDataCollection to set
 	 */
 	public void setFlightDataCollection(
 			Map<String, Map<String, Set<Flight>>> flightDataCollection) {
 		this.flightDataCollection = flightDataCollection;
 	}
 
-	public static synchronized SingletonClass getInstance(){
-		if(null == singletonInstance){
+	public static synchronized SingletonClass getInstance() {
+		if (null == singletonInstance) {
 			singletonInstance = new SingletonClass();
 		}
 		return singletonInstance;
 	}
-
 
 }
