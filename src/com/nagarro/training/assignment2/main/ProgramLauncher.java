@@ -1,5 +1,6 @@
 package com.nagarro.training.assignment2.main;
 
+import com.nagarro.training.assignment2.customException.NewCustomException;
 import com.nagarro.training.assignment2.thread.ProcessCsvFilesThreadLauncher;
 import com.nagarro.training.assignment2.userInterface.UserInteractor;
 
@@ -22,7 +23,12 @@ public class ProgramLauncher {
 		 */
 
 		UserInteractor interactor = new UserInteractor();
-		interactor.userInput();
+		try {
+			interactor.userInput();		
+		} catch (NewCustomException exception) {
+
+			exception.printMessage();
+		}
 
 	}
 

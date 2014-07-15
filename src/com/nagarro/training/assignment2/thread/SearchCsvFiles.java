@@ -1,6 +1,7 @@
 package com.nagarro.training.assignment2.thread;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.nagarro.training.assignment2.Constants.Constants;
-import com.nagarro.training.assignment2.flightDTO.CsvFilesDTO;
+import com.nagarro.training.assignment2.DTOclasses.CsvFilesDTO;
+import com.nagarro.training.assignment2.customException.NewCustomException;
 
 /**
  * @author hiteshgarg
@@ -25,7 +27,7 @@ public class SearchCsvFiles implements Runnable {
 	 * files in the Data Store
 	 */
 	@Override
-	public void run() {
+	public void run(){
 		CsvFilesDTO csvDto = new CsvFilesDTO();
 		csvDto.setCsvListTime(new HashMap<String, FileTime>());
 
@@ -38,12 +40,15 @@ public class SearchCsvFiles implements Runnable {
 				searchCSVinDirectory(csvDto);
 				Thread.sleep(60 * 1000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+//				throw new NewCustomException("Restart the program to read Data again. Thread interrupted Unexpectedly");
+				System.out.println("Unexpected Error. Please try again");
+			}catch (NewCustomException exception) {
+				exception.printMessage();
 			}
 		}
 	}
 
-	public void searchCSVinDirectory(CsvFilesDTO csvDto) {
+	public void searchCSVinDirectory(CsvFilesDTO csvDto) throws NewCustomException {
 		try {
 			File file = new File(Constants.CSV_FILES_URL);
 			List<String> updatedFiles = new ArrayList<>();
@@ -91,9 +96,11 @@ public class SearchCsvFiles implements Runnable {
 			if (updatedFiles.size() > 0) {
 				new AddDataFromNewOrUpdatedCSV().addUpdatedFilesData(csvDto);
 			}
-		} catch (Exception e) {
-			// TODO Auto Generated Catch Block
-			e.printStackTrace();
+		} catch (IOException e) {
+			throw new NewCustomException("Problem in Input output operations of File..Reading File Attributes");
+		}
+		catch(Exception e){
+			throw new NewCustomException("Unexpected Error while reading CSV file attributes");
 		}
 	}
 

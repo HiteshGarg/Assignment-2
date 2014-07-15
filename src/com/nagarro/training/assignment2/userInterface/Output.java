@@ -5,8 +5,8 @@ package com.nagarro.training.assignment2.userInterface;
 
 import java.util.Collections;
 
+import com.nagarro.training.assignment2.DTOclasses.FlightDTO;
 import com.nagarro.training.assignment2.flight.Flight;
-import com.nagarro.training.assignment2.flightDTO.FlightDTO;
 
 /**
  * @author Hitesh

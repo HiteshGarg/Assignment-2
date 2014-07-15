@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.nagarro.training.assignment2.flightDTO;
+package com.nagarro.training.assignment2.DTOclasses;
 
 import java.nio.file.attribute.FileTime;
 import java.util.List;

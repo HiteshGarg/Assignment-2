@@ -14,10 +14,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.nagarro.training.assignment2.Constants.Constants;
+import com.nagarro.training.assignment2.DTOclasses.CsvFilesDTO;
+import com.nagarro.training.assignment2.customException.NewCustomException;
 import com.nagarro.training.assignment2.dataStructure.SingletonClass;
 import com.nagarro.training.assignment2.flight.Flight;
-import com.nagarro.training.assignment2.flightDTO.CsvFilesDTO;
 import com.nagarro.training.assignment2.validators.StringDateConverter;
+
 
 /**
  * @author hiteshgarg
@@ -52,7 +54,11 @@ public class AddDataFromNewOrUpdatedCSV {
 						new HashMap<String, Set<Flight>>());
 			}
 
-			readCsvAddData(csvDto.getUpdatedFiles().get(i));
+			try {
+				readCsvAddData(csvDto.getUpdatedFiles().get(i));
+			} catch (NewCustomException exception) {
+				exception.printMessage();
+			}
 
 		}
 	}
@@ -65,7 +71,7 @@ public class AddDataFromNewOrUpdatedCSV {
 	 * object is added to the List otherwise a new entry is created in the Outer
 	 * Map using Departure Location and Arrival Location as Key.
 	 */
-	public void readCsvAddData(String csvFile) {
+	public void readCsvAddData(String csvFile) throws NewCustomException {
 
 		Map<String, Set<Flight>> innerMap = SingletonClass.getInstance()
 				.getFlightDataCollection().get(csvFile);
@@ -101,13 +107,9 @@ public class AddDataFromNewOrUpdatedCSV {
 				innerMap.get(DepArrKey).add(flight);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("ERROR 1");
+			throw new NewCustomException("Sorry the Files are not Found");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("ERROR 2");
+			throw new NewCustomException("Unexpected Input Output Exceptions while Reading the File");
 		}
 	}
 

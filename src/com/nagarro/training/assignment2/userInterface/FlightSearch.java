@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.nagarro.training.assignment2.DTOclasses.FlightDTO;
 import com.nagarro.training.assignment2.dataStructure.SingletonClass;
 import com.nagarro.training.assignment2.flight.Flight;
-import com.nagarro.training.assignment2.flightDTO.FlightDTO;
 
 /**
  * @author hiteshgarg

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.nagarro.training.assignment2.Constants.Constants;
+import com.nagarro.training.assignment2.customException.NewCustomException;
 
 /**
  * @author hiteshgarg
@@ -38,7 +39,7 @@ public class UserInputValidators {
 		return locationValidate;
 	}
 
-	public static boolean dateValidator(String input) {
+	public static boolean dateValidator(String input) throws NewCustomException{
 
 		boolean locationValidate = true;
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -55,8 +56,7 @@ public class UserInputValidators {
 //				locationValidate = false;
 //			}
 		} catch (ParseException e) {
-			System.out.println(Constants.INCORRECT_DATE_ERROR);
-			locationValidate = false;
+			throw new NewCustomException(Constants.INCORRECT_DATE_ERROR);
 		}
 		return locationValidate;
 	}

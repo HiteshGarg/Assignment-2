@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 import java.util.Date;
 
 import com.nagarro.training.assignment2.Constants.Constants;
-import com.nagarro.training.assignment2.flightDTO.FlightDTO;
+import com.nagarro.training.assignment2.DTOclasses.FlightDTO;
+import com.nagarro.training.assignment2.customException.NewCustomException;
 import com.nagarro.training.assignment2.validators.StringDateConverter;
 import com.nagarro.training.assignment2.validators.UserInputValidators;
 
@@ -16,11 +17,11 @@ import com.nagarro.training.assignment2.validators.UserInputValidators;
  */
 public class UserInteractor {
 
-	public void userInput() {
+	public void userInput() throws NewCustomException {
 		FlightDTO dto = new FlightDTO();
 		boolean validate = true;
 		String input;
-		String choice= "";
+		String choice= "y";
 		try {
 			BufferedReader reader = new BufferedReader(
 					new InputStreamReader(System.in));
@@ -43,8 +44,13 @@ public class UserInteractor {
 
 				do {
 					System.out.println(Constants.ENTER_FLIGHT_DATE);
-					validate = UserInputValidators.dateValidator(input = reader
-							.readLine());
+					input = reader.readLine();
+					try{
+					validate = UserInputValidators.dateValidator(input);
+					}catch(NewCustomException exception){
+						exception.printMessage();
+						validate = false;
+					}
 				} while (!validate);
 				
 				Date date = StringDateConverter.StringToDateConvertor(input);
@@ -77,8 +83,7 @@ public class UserInteractor {
 			reader.close();
 			System.exit(0);
 		} catch (IOException e) {
-
-			System.out.println("Unexpected error occured please try again");
+			throw new NewCustomException("Unexpected error occured please try again");
 		}
 	}
 }
