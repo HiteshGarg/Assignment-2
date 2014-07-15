@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.nagarro.training.assignment2.thread;
+package com.nagarro.training.assignment2.csvServices;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,7 +16,7 @@ import java.util.Set;
 import com.nagarro.training.assignment2.Constants.Constants;
 import com.nagarro.training.assignment2.DTOclasses.CsvFilesDTO;
 import com.nagarro.training.assignment2.customException.NewCustomException;
-import com.nagarro.training.assignment2.dataStructure.SingletonClass;
+import com.nagarro.training.assignment2.dataStructure.FlightData;
 import com.nagarro.training.assignment2.flight.Flight;
 import com.nagarro.training.assignment2.validators.StringDateConverter;
 
@@ -31,14 +31,12 @@ public class AddDataFromNewOrUpdatedCSV {
 
 	public void addUpdatedFilesData(CsvFilesDTO csvDto) {
 
-		Map<String, Map<String, Set<Flight>>> flightData;
-		SingletonClass singleton = SingletonClass.getInstance();
+		FlightData singleton = FlightData.getInstance();
 		/*
 		 * Initialize the HashMap stored in SingletonClass if it is null
 		 */
 		if (singleton.getFlightDataCollection() == null) {
-			flightData = new HashMap<String, Map<String, Set<Flight>>>();
-			singleton.setFlightDataCollection(flightData);
+			singleton.setFlightDataCollection(new HashMap<String, Map<String, Set<Flight>>>());
 		}
 
 		/*
@@ -73,7 +71,7 @@ public class AddDataFromNewOrUpdatedCSV {
 	 */
 	public void readCsvAddData(String csvFile) throws NewCustomException {
 
-		Map<String, Set<Flight>> innerMap = SingletonClass.getInstance()
+		Map<String, Set<Flight>> innerMap = FlightData.getInstance()
 				.getFlightDataCollection().get(csvFile);
 		csvFile = Constants.CSV_FILES_URL + "/" + csvFile;
 

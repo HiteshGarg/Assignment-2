@@ -1,7 +1,7 @@
 package com.nagarro.training.assignment2.main;
 
+import com.nagarro.training.assignment2.csvServices.ProcessCsvFiles;
 import com.nagarro.training.assignment2.customException.NewCustomException;
-import com.nagarro.training.assignment2.thread.ProcessCsvFilesThreadLauncher;
 import com.nagarro.training.assignment2.userInterface.UserInteractor;
 
 public class ProgramLauncher {
@@ -14,7 +14,7 @@ public class ProgramLauncher {
 		/*
 		 * Initializes the class that perform all csv files related operations
 		 */
-		ProcessCsvFilesThreadLauncher launcher = new ProcessCsvFilesThreadLauncher();
+		ProcessCsvFiles launcher = new ProcessCsvFiles();
 		launcher.initiateThreadClass();
 
 		/*

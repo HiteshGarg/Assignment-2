@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.nagarro.training.assignment2.DTOclasses.FlightDTO;
-import com.nagarro.training.assignment2.dataStructure.SingletonClass;
+import com.nagarro.training.assignment2.dataStructure.FlightData;
 import com.nagarro.training.assignment2.flight.Flight;
 
 /**
@@ -19,14 +19,11 @@ import com.nagarro.training.assignment2.flight.Flight;
  */
 public class FlightSearch {
 
-	public void searchUserFlight(FlightDTO dto) {
+	public List<Flight> searchUserFlight(FlightDTO dto) {
 
-		SingletonClass singleton = SingletonClass.getInstance();
-		String DepArrKey = (dto.getDep_loc() + dto.getArr_loc()).toUpperCase();
-		/*
-		 * Removing any previously searched data in the Set
-		 */
-		dto.setSearchedFlights(null);
+		FlightData singleton = FlightData.getInstance();
+		String DepArrKey = (dto.getDepLoc() + dto.getArrLoc()).toUpperCase();
+		List<Flight> SearchedFlights = new ArrayList<Flight>();
 
 		/*
 		 * In the code below the data stored in the Data store is being parsed
@@ -40,42 +37,29 @@ public class FlightSearch {
 		 */
 		for (Map.Entry<String, Map<String, Set<Flight>>> localMap : singleton
 				.getFlightDataCollection().entrySet()) {
-
 			for (Map.Entry<String, Set<Flight>> innerMap : localMap.getValue()
 					.entrySet()) {
 
 				if (innerMap.getKey().equalsIgnoreCase(DepArrKey)) {
 					Set<Flight> flightSet = innerMap.getValue();
-					List<Flight> userSearch;
-
-					if (dto.getSearchedFlights() == null) {
-						/*
-						 * List(ArrayList) is taken so that we could sort the
-						 * Collection Based in user preference
-						 */
-						userSearch = new ArrayList<Flight>();
-					} else {
-						userSearch = dto.getSearchedFlights();
-					}
-
+					
 					Iterator<Flight> iterator = flightSet.iterator();
 					while (iterator.hasNext()) {
 						Flight flight = iterator.next();
-						if ((dto.getFlight_date()
+						if ((dto.getFlightDate()
 								.before(flight.getValid_till()))
 								&& (flight.getFlight_class()
 										.contains((CharSequence) dto
-												.getFlight_class()
+												.getFlightClass()
 												.toUpperCase()))) {
-							userSearch.add(flight);
+							SearchedFlights.add(flight);
 						}
 					}
-					dto.setSearchedFlights(userSearch);
 				}
 			}
 		}
-
-		Output.outputDisplay(dto);
+		
+		return SearchedFlights;
 
 	}
 }

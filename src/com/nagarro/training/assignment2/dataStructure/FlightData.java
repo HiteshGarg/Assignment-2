@@ -12,11 +12,11 @@ import com.nagarro.training.assignment2.flight.Flight;
  * @author hiteshgarg
  * 
  */
-public class SingletonClass {
+public class FlightData {
 	/*
 	 * Instance of Singleton Class
 	 */
-	private static SingletonClass singletonInstance;
+	private static FlightData singletonInstance;
 	/*
 	 * Map to store Filenames as the Key and a Sub map as a value. Further that
 	 * inner map stores Departure Arrival String as key and Set of relative
@@ -40,9 +40,9 @@ public class SingletonClass {
 		this.flightDataCollection = flightDataCollection;
 	}
 
-	public static synchronized SingletonClass getInstance() {
+	public static synchronized FlightData getInstance() {
 		if (null == singletonInstance) {
-			singletonInstance = new SingletonClass();
+			singletonInstance = new FlightData();
 		}
 		return singletonInstance;
 	}

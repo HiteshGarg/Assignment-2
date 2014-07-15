@@ -1,4 +1,4 @@
-package com.nagarro.training.assignment2.thread;
+package com.nagarro.training.assignment2.csvServices;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +26,7 @@ public class SearchCsvFiles implements Runnable {
 	 * Continuously run in background and add the updated or newly added CSV
 	 * files in the Data Store
 	 */
+	
 	@Override
 	public void run(){
 		CsvFilesDTO csvDto = new CsvFilesDTO();
@@ -40,7 +41,6 @@ public class SearchCsvFiles implements Runnable {
 				searchCSVinDirectory(csvDto);
 				Thread.sleep(60 * 1000);
 			} catch (InterruptedException e) {
-//				throw new NewCustomException("Restart the program to read Data again. Thread interrupted Unexpectedly");
 				System.out.println("Unexpected Error. Please try again");
 			}catch (NewCustomException exception) {
 				exception.printMessage();
@@ -48,6 +48,7 @@ public class SearchCsvFiles implements Runnable {
 		}
 	}
 
+	
 	public void searchCSVinDirectory(CsvFilesDTO csvDto) throws NewCustomException {
 		try {
 			File file = new File(Constants.CSV_FILES_URL);

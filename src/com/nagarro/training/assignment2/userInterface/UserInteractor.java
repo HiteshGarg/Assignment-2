@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.List;
 
 import com.nagarro.training.assignment2.Constants.Constants;
 import com.nagarro.training.assignment2.DTOclasses.FlightDTO;
 import com.nagarro.training.assignment2.customException.NewCustomException;
+import com.nagarro.training.assignment2.flight.Flight;
 import com.nagarro.training.assignment2.validators.StringDateConverter;
 import com.nagarro.training.assignment2.validators.UserInputValidators;
 
@@ -33,7 +35,7 @@ public class UserInteractor {
 					validate = UserInputValidators
 							.locationValidator(input = reader.readLine());
 				} while (!validate);
-				dto.setDep_loc(input);
+				dto.setDepLoc(input);
 
 				do {
 					System.out.println(Constants.ENTER_ARRIVAL_LOCATION);
@@ -58,23 +60,25 @@ public class UserInteractor {
 					System.out.println("Error in Date processing... Please Try again");
 					continue;
 				}
-				dto.setFlight_date(date);
+				dto.setFlightDate(date);
 
 				do {
 					System.out.println(Constants.ENTER_FLIGHT_CLASS);
 					validate = UserInputValidators
 							.classValidator(input = reader.readLine());
 				} while (!validate);
-				dto.setFlight_class(input);
+				dto.setFlightClass(input);
 
 				do {
 					System.out.println(Constants.ENTER_OUTPUT_PREFERENCES);
 					validate = UserInputValidators
 							.preferenceValidator(input = reader.readLine());
 				} while (!validate);
-				dto.setOutput_preferences(input);
+				dto.setOutputPreferences(input);
 
-				new FlightSearch().searchUserFlight(dto);
+				List<Flight> SearchedFlights = new FlightSearch().searchUserFlight(dto);
+				
+				Output.outputDisplay(SearchedFlights, dto);
 				
 				System.out.println("Want to search another flight(y/n)");
 				choice = reader.readLine();

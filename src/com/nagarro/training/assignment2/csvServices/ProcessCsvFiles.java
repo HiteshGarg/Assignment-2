@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.nagarro.training.assignment2.thread;
+package com.nagarro.training.assignment2.csvServices;
 
 /**
  * @author hiteshgarg
  * 
  */
-public class ProcessCsvFilesThreadLauncher {
+public class ProcessCsvFiles {
 
 	/*
 	 * Launches the Thread that read and Add csv files data to the data store
