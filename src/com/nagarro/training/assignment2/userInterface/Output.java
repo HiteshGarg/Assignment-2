@@ -3,6 +3,7 @@
  */
 package com.nagarro.training.assignment2.userInterface;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,7 +41,6 @@ public class Output {
 				if (dto.getFlightClass().equalsIgnoreCase("b")){
 					fare = fare + (int) (0.4 * fare);
 				}
-
 					System.out.printf(
 							"|%-10s | %-20s |%-20s |%-20s |%-20d |\n",
 							flight.getFlight_no(), flight.getValid_till(),

@@ -14,8 +14,9 @@ public class ProcessCsvFiles {
 	 */
 	public void initiateThreadClass() {
 
-		SearchCsvFiles fileSearch = new SearchCsvFiles();
-		Thread t1 = new Thread(fileSearch);
+//		SearchCsvFiles fileSearch = new SearchCsvFiles();
+		CsvHandler csvFileHandler = new CsvHandler();
+		Thread t1 = new Thread(csvFileHandler);
 		t1.start();
 
 	}
