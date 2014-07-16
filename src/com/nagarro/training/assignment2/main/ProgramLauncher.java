@@ -11,6 +11,7 @@ public class ProgramLauncher {
 	 */
 	public static void main(String[] args) {
 
+		try {
 		/*
 		 * Initializes the class that perform all csv files related operations
 		 */
@@ -23,7 +24,6 @@ public class ProgramLauncher {
 		 */
 
 		UserInteractor interactor = new UserInteractor();
-		try {
 			interactor.userInput();		
 		} catch (NewCustomException exception) {
 

@@ -3,11 +3,8 @@
  */
 package com.nagarro.training.assignment2.userInterface;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import com.nagarro.training.assignment2.DTOclasses.FlightDTO;
 import com.nagarro.training.assignment2.dataStructure.FlightData;
@@ -23,8 +20,8 @@ public class FlightSearch {
 
 		FlightData singleton = FlightData.getInstance();
 		String DepArrKey = (dto.getDepLoc() + dto.getArrLoc()).toUpperCase();
-		List<Flight> SearchedFlights = new ArrayList<Flight>();
-
+		List<Flight> flights = singleton.getDepArrivalFlights(DepArrKey);
+		
 		/*
 		 * In the code below the data stored in the Data store is being parsed
 		 * by retrieving the inner Map one by one that stores all data related
@@ -35,31 +32,15 @@ public class FlightSearch {
 		 * is further passed to the class to display the final List of Searched
 		 * Flights
 		 */
-		for (Map.Entry<String, Map<String, Set<Flight>>> localMap : singleton
-				.getFlightDataCollection().entrySet()) {
-			for (Map.Entry<String, Set<Flight>> innerMap : localMap.getValue()
-					.entrySet()) {
-
-				if (innerMap.getKey().equalsIgnoreCase(DepArrKey)) {
-					Set<Flight> flightSet = innerMap.getValue();
-					
-					Iterator<Flight> iterator = flightSet.iterator();
-					while (iterator.hasNext()) {
-						Flight flight = iterator.next();
-						if ((dto.getFlightDate()
-								.before(flight.getValid_till()))
-								&& (flight.getFlight_class()
-										.contains((CharSequence) dto
-												.getFlightClass()
-												.toUpperCase()))) {
-							SearchedFlights.add(flight);
-						}
-					}
-				}
+		Iterator<Flight> iterator = flights.iterator();
+		while (iterator.hasNext()) {
+			Flight flight = iterator.next();
+			if (!((dto.getFlightDate().before(flight.getValid_till())) && (flight
+					.getFlight_class().contains((CharSequence) dto
+					.getFlightClass().toUpperCase())))) {
+				iterator.remove();
 			}
 		}
-		
-		return SearchedFlights;
-
+		return flights;
 	}
 }

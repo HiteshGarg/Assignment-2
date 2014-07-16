@@ -154,34 +154,6 @@ public class Flight{
 		this.flight_class = flight_class;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Flight temp = (Flight) obj;
-		if (!flight_no.equals(temp.flight_no) && !arr_loc.equals(temp.arr_loc)
-				&& !dep_loc.equals(temp.dep_loc) && !fare.equals(temp.fare)
-				&& !flight_class.equals(temp.flight_class)
-				&& !flight_duration.equals(temp.flight_duration)
-				&& !flight_time.equals(temp.flight_time)
-				&& !seat_avail.equals(temp.seat_avail)
-				&& !valid_till.equals(temp.valid_till))
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		return (int) (this.arr_loc.hashCode() * this.dep_loc.hashCode()
-				* this.valid_till.hashCode() * this.seat_avail.hashCode()
-				* this.flight_time.hashCode() * this.flight_no.hashCode()
-				* this.flight_duration.hashCode()
-				* this.flight_class.hashCode() * this.fare.hashCode());
-	}
 
 	
 	 public static Comparator<Flight> FareSorter=  new Comparator<Flight>() {
@@ -200,6 +172,45 @@ public class Flight{
                      return obj1.getFare() - obj2.getFare();
               }
              }
-      };    
+      };
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((flight_class == null) ? 0 : flight_class.hashCode());
+			result = prime * result
+					+ ((flight_no == null) ? 0 : flight_no.hashCode());
+			return result;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Flight other = (Flight) obj;
+			if (flight_class == null) {
+				if (other.flight_class != null)
+					return false;
+			} else if (!flight_class.equals(other.flight_class))
+				return false;
+			if (flight_no == null) {
+				if (other.flight_no != null)
+					return false;
+			} else if (!flight_no.equals(other.flight_no))
+				return false;
+			return true;
+		}    
 
 }

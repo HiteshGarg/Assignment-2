@@ -55,12 +55,13 @@ public class UserInteractor {
 					}
 				} while (!validate);
 				
+				try{
 				Date date = StringDateConverter.StringToDateConvertor(input);
-				if(date == null){
-					System.out.println("Error in Date processing... Please Try again");
+				dto.setFlightDate(date);
+				}catch(NewCustomException exception){
+					exception.printMessage();
 					continue;
 				}
-				dto.setFlightDate(date);
 
 				do {
 					System.out.println(Constants.ENTER_FLIGHT_CLASS);

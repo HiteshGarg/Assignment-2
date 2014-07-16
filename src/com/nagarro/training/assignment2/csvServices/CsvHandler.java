@@ -29,15 +29,16 @@ import com.nagarro.training.assignment2.validators.StringDateConverter;
 
 /**
  * @author hiteshgarg
- *
+ * 
  */
-public class CsvHandler implements Runnable{
+public class CsvHandler implements Runnable {
+
 	private List<String> updatedFiles;
 	private Map<String, FileTime> csvListWithTime;
-	
+
 	@Override
-	public void run(){
-//		CsvFilesDTO csvDto = new CsvFilesDTO();
+	public void run() {
+		// CsvFilesDTO csvDto = new CsvFilesDTO();
 		csvListWithTime = new HashMap<>();
 
 		while (true) {
@@ -50,13 +51,12 @@ public class CsvHandler implements Runnable{
 				Thread.sleep(60 * 1000);
 			} catch (InterruptedException e) {
 				System.out.println("Unexpected Error. Please try again");
-			}catch (NewCustomException exception) {
+			} catch (NewCustomException exception) {
 				exception.printMessage();
 			}
 		}
 	}
 
-	
 	public void searchCSVinDirectory() throws NewCustomException {
 		try {
 			File file = new File(Constants.CSV_FILES_URL);
@@ -66,38 +66,28 @@ public class CsvHandler implements Runnable{
 
 			/*
 			 * Filter out all the csv files newly added csv files and setting
-			 * their lastmodified time as null
+			 * their last modified time as null
 			 */
+
 			for (int i = 0; i < filenames.length; i++) {
-				if (filenames[i].endsWith(".csv")
-						&& (!csvListWithTime.containsKey(filenames[i]))) {
-					csvListWithTime.put(filenames[i], null);
+				if (filenames[i].endsWith(".csv")) {
+					if (!csvListWithTime.containsKey(filenames[i])) {
+						csvListWithTime.put(filenames[i], null);
+					}
+					
+					Path path = Paths.get(Constants.CSV_FILES_URL, filenames[i]);
+					BasicFileAttributes fileAttributes = Files.readAttributes(path,
+							BasicFileAttributes.class);
+					
+					if (csvListWithTime.get(filenames[i]) == null
+							|| !csvListWithTime.get(filenames[i]).equals(
+									fileAttributes.lastModifiedTime())) {
+						updatedFiles.add(filenames[i]);
+						csvListWithTime.put(filenames[i], fileAttributes.lastModifiedTime());
+					}
 				}
 			}
-
-			/*
-			 * Here we Get the List of all filtered csv files access their
-			 * Attributes And if thier Last Modified time is more than the
-			 * previously stored time than it adds the filename to Updated Files
-			 * List
-			 */
-
-			for (Map.Entry<String, FileTime> map : csvListWithTime
-					.entrySet()) {
-				Path path = Paths.get(Constants.CSV_FILES_URL, map.getKey());
-				BasicFileAttributes fileAttributes = Files.readAttributes(path,
-						BasicFileAttributes.class);
-
-				if (map.getValue() == null
-						|| !map.getValue().equals(
-								fileAttributes.lastModifiedTime())) {
-					updatedFiles.add(map.getKey());
-					map.setValue(fileAttributes.lastModifiedTime());
-				}
-			}
-
 			this.updatedFiles = updatedFiles;
-
 			/*
 			 * If updated files are found then they are added to the Data
 			 * Structure
@@ -106,39 +96,24 @@ public class CsvHandler implements Runnable{
 				addUpdatedFilesData();
 			}
 		} catch (IOException e) {
-			throw new NewCustomException("Problem in Input output operations of File..Reading File Attributes");
-		}
-		catch(Exception e){
-			throw new NewCustomException("Unexpected Error while reading CSV file attributes");
+			throw new NewCustomException(
+					"Problem in Input output operations of File..Reading File Attributes");
+		} catch (Exception e) {
+			throw new NewCustomException(
+					"Unexpected Error while reading CSV file attributes");
 		}
 	}
-	
-	
+
 	public void addUpdatedFilesData() {
-
-		FlightData singleton = FlightData.getInstance();
-		/*
-		 * Initialize the HashMap stored in SingletonClass if it is null
-		 */
-		if (singleton.getFlightDataCollection() == null) {
-			singleton.setFlightDataCollection(new HashMap<String, Map<String, Set<Flight>>>());
-		}
-
 		/*
 		 * If the CSV file in the List is a newly added file than it creates a
 		 * new entry in the Hash map assigning filename as Key and initializes a
 		 * new sub map - Hash map as Value
 		 */
 		for (int i = 0; i < updatedFiles.size(); i++) {
-			if (singleton.getFlightDataCollection().get(
-					updatedFiles.get(i)) == null) {
-				singleton.getFlightDataCollection().put(
-						updatedFiles.get(i),
-						new HashMap<String, Set<Flight>>());
-			}
-
 			try {
-				readCsvAddData(updatedFiles.get(i));
+				Map<String, Set<Flight>> flightData = readCsvAddData(updatedFiles.get(i));
+				FlightData.getInstance().insertCsvFileData(updatedFiles.get(i), flightData);
 			} catch (NewCustomException exception) {
 				exception.printMessage();
 			}
@@ -154,10 +129,9 @@ public class CsvHandler implements Runnable{
 	 * object is added to the List otherwise a new entry is created in the Outer
 	 * Map using Departure Location and Arrival Location as Key.
 	 */
-	public void readCsvAddData(String csvFile) throws NewCustomException {
+	public Map<String, Set<Flight>>  readCsvAddData(String csvFile) throws NewCustomException {
 		BufferedReader reader;
-		Map<String, Set<Flight>> innerMap = FlightData.getInstance()
-				.getFlightDataCollection().get(csvFile);
+		Map<String, Set<Flight>> flightData = new HashMap<>();
 		csvFile = Constants.CSV_FILES_URL + "/" + csvFile;
 
 		try {
@@ -184,16 +158,18 @@ public class CsvHandler implements Runnable{
 				flight.setFlight_class(data[8]);
 
 				String DepArrKey = data[1] + data[2];
-				if (!(innerMap.containsKey(DepArrKey))) {
-					innerMap.put(DepArrKey, new HashSet<Flight>());
+				if (!(flightData.containsKey(DepArrKey))) {
+					flightData.put(DepArrKey, new HashSet<Flight>());
 				}
-				innerMap.get(DepArrKey).add(flight);
+				flightData.get(DepArrKey).add(flight);
 			}
 		} catch (FileNotFoundException e) {
 			throw new NewCustomException("Sorry the Files are not Found");
 		} catch (IOException e) {
-			throw new NewCustomException("Unexpected Input Output Exceptions while Reading the File");
+			throw new NewCustomException(
+					"Unexpected Input Output Exceptions while Reading the File");
 		}
+		return flightData;
 	}
 
 }
